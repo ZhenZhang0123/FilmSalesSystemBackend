@@ -27,15 +27,9 @@ public class GlobalExceptionHandler {
                 .body(Response.error(400, "Validation failed:" + errors));
     }
 
-    @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<Response<Void>> handleBadCredentials(BadCredentialsException ex) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(Response.error(401, "Invalid username or password"));
-    }
-
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Response<Void>> handleGenericError(Exception ex) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(Response.error(500, "An unexpected error occurred"));
+                .body(Response.error(500, ex.getMessage()));
     }
 }
