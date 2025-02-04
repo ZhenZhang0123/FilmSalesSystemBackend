@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: FilmSalesSystemBackend
+  datasource:
+    url: jdbc:h2:mem:testdb  # In-memory database
+    driverClassName: org.h2.Driver
+    username: sa
+    password: password
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: create  # Automatically update schema on startup (you can change it to 'create', 'none', etc.)
+  h2:
+    console:
+      enabled: true  # Enable the H2 Console
+      path: /h2-console  # The URL to access the console (e.g., http://localhost:8080/h2-console)
+server:
+  port: 8080  # Application will run on port 8080
+logging:
+  level:
+    root: INFO  # Sets the root logging level
+    org.springframework: WARN  # Set log level for Spring packages
+security:
+  jwt:
+    secret-key: 3cfa76ef14937c1c0ea519f8fc057a80fcd04a7420f8e8bcd0a7567c272e007b
+    expiration-time: 3600000
+
+
+
