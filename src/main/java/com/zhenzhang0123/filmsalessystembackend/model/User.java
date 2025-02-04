@@ -44,6 +44,10 @@ public class User implements UserDetails {
     private Date updatedAt;
 
     @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(
+            name = "users_authorities",  // custom table name
+            joinColumns = @JoinColumn(name = "user_id")
+    )
     @Enumerated(EnumType.STRING)
     private Set<Role> authorities;
 

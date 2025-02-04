@@ -4,6 +4,10 @@ VALUES
     ('admin', 'admin@example.com', '$2y$10$ubHGKjh3/hTm5/7jEzxkd.ROlmIGt/YfFnQiSbxbu2Uoaf93JqrtK', true, true, true, true),
     ('user', 'user@example.com', '$2y$10$ubHGKjh3/hTm5/7jEzxkd.ROlmIGt/YfFnQiSbxbu2Uoaf93JqrtK', true, true, true, true);
 
+INSERT INTO users_authorities (user_id, authorities)
+VALUES
+    (1, 'ROLE_ADMIN'),
+    (2, 'ROLE_USER');
 
 
 
