@@ -1,7 +1,6 @@
 package com.zhenzhang0123.filmsalessystembackend.config;
 
 import com.zhenzhang0123.filmsalessystembackend.filter.JwtAuthenticationFilter;
-import com.zhenzhang0123.filmsalessystembackend.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
