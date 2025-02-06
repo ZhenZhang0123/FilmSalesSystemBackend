@@ -36,11 +36,9 @@ public class User implements UserDetails {
     private String email;
 
     @CreationTimestamp
-    @Column(updatable = false, name = "created_at")
     private Date createdAt;
 
     @UpdateTimestamp
-    @Column(name = "updated_at")
     private Date updatedAt;
 
     @ElementCollection(fetch = FetchType.EAGER)

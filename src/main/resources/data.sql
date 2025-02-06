@@ -9,5 +9,13 @@ VALUES
     (1, 'ROLE_ADMIN'),
     (2, 'ROLE_USER');
 
+INSERT INTO shows (film_name, show_time, ticket_price, remaining_tickets, sold_tickets)
+VALUES
+    ('Avatar 2', '2025-02-5 18:00:00', 15.00, 80, 20),
+    ('Inception', '2025-02-12 20:00:00', 12.50, 50, 10),
+    ('The Matrix', '2025-02-14 19:30:00', 10.00, 200, 50),
+    ('Jurassic Park', '2025-02-15 21:00:00', 18.00, 30, 5),
+    ('Titanic', '2025-02-17 17:00:00', 14.00, 150, 20);
+
 
 
