@@ -7,6 +7,7 @@ VALUES
 INSERT INTO users_authorities (user_id, authorities)
 VALUES
     (1, 'ROLE_ADMIN'),
+    (1, 'ROLE_USER'),
     (2, 'ROLE_USER');
 
 INSERT INTO shows (film_name, show_time, ticket_price, remaining_tickets, sold_tickets)
