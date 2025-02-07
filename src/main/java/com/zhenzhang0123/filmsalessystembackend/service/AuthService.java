@@ -10,11 +10,13 @@ import com.zhenzhang0123.filmsalessystembackend.util.JwtUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -77,7 +79,7 @@ public class AuthService {
             return buildAuthResponse(user, token);
 
         } catch (AuthenticationException e) {
-            throw new RuntimeException("Invalid username or password");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid username or password", e);
         }
     }
 

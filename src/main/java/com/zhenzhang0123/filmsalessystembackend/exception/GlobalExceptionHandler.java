@@ -6,6 +6,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,6 +24,14 @@ public class GlobalExceptionHandler {
         });
         return ResponseEntity.badRequest()
                 .body(errors);
+    }
+
+    @ExceptionHandler(ResponseStatusException.class)
+    public ResponseEntity<String> handleResponseStatusException(ResponseStatusException ex) {
+        if (ex.getStatusCode() == HttpStatus.UNAUTHORIZED) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+        }
+        return ResponseEntity.status(ex.getStatusCode()).body(ex.getReason());
     }
 
     @ExceptionHandler(Exception.class)
