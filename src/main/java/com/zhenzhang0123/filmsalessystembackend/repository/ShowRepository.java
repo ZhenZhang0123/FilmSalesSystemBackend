@@ -8,6 +8,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-public interface ShowRepository extends JpaRepository<Show, Integer> {
+public interface ShowRepository extends JpaRepository<Show, Long> {
     List<Show> findByRemainingTicketsGreaterThanAndShowTimeAfter(int remainingTickets, LocalDateTime now);
 }

@@ -1,25 +1,37 @@
 package com.zhenzhang0123.filmsalessystembackend.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
 @Data
 @Table(name = "orders")
-public class Order implements Serializable {
+public class Order{
     @Id
-    private String id;
-    private int showId;
-    private String userId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
+    private Long showId;
+
+    @Column(nullable = false)
+    private String userName;
+
+    @Min(value = 1, message = "Ticket count must be positive")
+    @Column(nullable = false)
     private int ticketCount;
+
     @CreationTimestamp
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime purchaseTime;
+    private LocalDateTime createdAt;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 }

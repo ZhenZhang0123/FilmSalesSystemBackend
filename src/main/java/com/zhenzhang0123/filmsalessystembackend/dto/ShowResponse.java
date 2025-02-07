@@ -11,10 +11,10 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ShowResponse {
-    private int id;
+    private Long id;
     private String filmName;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime showTime;
-    private double ticketPrice;
-    private int remainingTickets;
+    private Double ticketPrice;
+    private Integer remainingTickets;
 }
