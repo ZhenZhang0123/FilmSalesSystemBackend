@@ -9,6 +9,7 @@ import com.zhenzhang0123.filmsalessystembackend.repository.OrderRepository;
 import com.zhenzhang0123.filmsalessystembackend.repository.ShowRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.OptimisticLockException;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,20 +25,18 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final ShowRepository showRepository;
 
+    @Transactional
     public OrderResponse createOrder(@Valid OrderRequest orderRequest) {
-        Optional<Show> showOpt = showRepository.findById(orderRequest.getShowId());
-        if (showOpt.isEmpty()) {
-            throw new EntityNotFoundException("Show not found with ID: " + orderRequest.getShowId());
-        }
+        Show show = showRepository.findById(orderRequest.getShowId())
+                .orElseThrow(() -> new EntityNotFoundException("Show not found with ID: " + orderRequest.getShowId()));
 
-        Show show = showOpt.get();
         if (show.getRemainingTickets() < orderRequest.getTicketCount()) {
             throw new IllegalArgumentException("Not enough tickets available for the show.");
         }
 
         // Create the order
         Order order = new Order();
-        order.setShowId(orderRequest.getShowId());
+        order.setShow(show);
         order.setUserName(orderRequest.getUserName());
         order.setTicketCount(orderRequest.getTicketCount());
 
@@ -57,7 +56,7 @@ public class OrderService {
         // Create the response
         OrderResponse response = new OrderResponse();
         response.setOrderId(savedOrder.getId());
-        response.setShowId(savedOrder.getShowId());
+        response.setShowId(savedOrder.getShow().getId());
         response.setTicketCount(savedOrder.getTicketCount());
 
         return response;
@@ -65,9 +64,9 @@ public class OrderService {
 
     public List<OrderListResponse> getOrdersByUserName(String userName) {
         List<Order> orders = orderRepository.findByUserName(userName);
+
         return orders.stream().map(order -> {
-            Show show = showRepository.findById(order.getShowId())
-                    .orElseThrow(() -> new RuntimeException("Show not found"));
+            Show show = order.getShow();
 
             double fullOrderPrice = show.getTicketPrice() * order.getTicketCount();
 
