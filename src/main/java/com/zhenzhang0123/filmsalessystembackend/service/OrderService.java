@@ -8,6 +8,7 @@ import com.zhenzhang0123.filmsalessystembackend.model.Show;
 import com.zhenzhang0123.filmsalessystembackend.repository.OrderRepository;
 import com.zhenzhang0123.filmsalessystembackend.repository.ShowRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.OptimisticLockException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -43,7 +44,12 @@ public class OrderService {
         // Update remaining tickets and sold tickets
         show.setRemainingTickets(show.getRemainingTickets() - orderRequest.getTicketCount());
         show.setSoldTickets(show.getSoldTickets() + orderRequest.getTicketCount());
-        showRepository.save(show);
+
+        try {
+            showRepository.save(show);
+        } catch (OptimisticLockException e) {
+            throw new IllegalStateException("Concurrent update detected. Please try again.");
+        }
 
         // Save the order
         Order savedOrder = orderRepository.save(order);

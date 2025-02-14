@@ -24,6 +24,9 @@ public class Show {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime showTime;
 
+    @Version
+    private Long version;
+
     @Min(value = 0, message = "Ticket price must be positive")
     private double ticketPrice;
 
