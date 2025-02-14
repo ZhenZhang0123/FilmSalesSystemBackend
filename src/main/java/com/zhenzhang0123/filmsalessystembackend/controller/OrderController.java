@@ -6,6 +6,7 @@ import com.zhenzhang0123.filmsalessystembackend.dto.OrderResponse;
 import com.zhenzhang0123.filmsalessystembackend.service.OrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,8 +27,12 @@ public class OrderController {
     }
 
     @GetMapping("/myOrders")
-    public ResponseEntity<List<OrderListResponse>> getMyOrders(@RequestParam String userName) {
-        List<OrderListResponse> orders = orderService.getOrdersByUserName(userName);
+    public ResponseEntity<Page<OrderListResponse>> getMyOrders(
+            @RequestParam String userName,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        Page<OrderListResponse> orders = orderService.getOrdersByUserName(userName, page, size);
         return ResponseEntity.ok(orders);
     }
 }

@@ -12,6 +12,10 @@ import jakarta.persistence.OptimisticLockException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.stereotype.Service;
 
@@ -62,12 +66,12 @@ public class OrderService {
         return response;
     }
 
-    public List<OrderListResponse> getOrdersByUserName(String userName) {
-        List<Order> orders = orderRepository.findByUserName(userName);
+    public Page<OrderListResponse> getOrdersByUserName(String userName, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        Page<Order> ordersPage = orderRepository.findByUserName(userName, pageable);
 
-        return orders.stream().map(order -> {
+        return ordersPage.map(order -> {
             Show show = order.getShow();
-
             double fullOrderPrice = show.getTicketPrice() * order.getTicketCount();
 
             return new OrderListResponse(
@@ -78,6 +82,6 @@ public class OrderService {
                     order.getTicketCount(),
                     fullOrderPrice
             );
-        }).collect(Collectors.toList());
+        });
     }
 }
